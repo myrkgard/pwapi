@@ -14,18 +14,21 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 16.x
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 16.x
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    
+    - name: Build Docker image and push it to GHRC
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: ghcr.io/myrkgard/pwapi
+        registry: ghcr.io
+        username: myrkgard
+        password: ${{ secrets.GITHUB_TOKEN }}
