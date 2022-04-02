@@ -29,7 +29,6 @@ jobs:
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
         image: ghcr.io/myrkgard/pwapi
-        tag: latest
         registry: ghcr.io
         username: myrkgard
         password: ${{ secrets.GITHUB_TOKEN }}
